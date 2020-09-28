@@ -7,5 +7,7 @@ var blogController = require('../controllers/blog');
 router.get('/', homeController.index);
 router.get('/addBlog', blogController.addBlog);
 router.get('/listBlog', blogController.listBlog);
+router.get('/editBlog', blogController.editBlog);
+router.get('/deleteBlog', blogController.deleteBlog);
 
 module.exports = router;
