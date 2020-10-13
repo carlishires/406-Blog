@@ -11,6 +11,15 @@
     <br/>
     
     <h1><%= title %></h1>
-    <p>Under Construction</p>
+    <% for (var i=0; i < blog.length; i++) { %>
+      <hr/>
+      <h2><%= blog[i].blogTitle %></h2>
+      <p> <%= blog[i].blogText %></p>
+      <p> <%= blog[i].createdOnDate %></p>
+      <a href='/editBlog/<%= blog[i]._id %>'><img src="/icons/open-iconic-master/svg/pencil.svg" alt="Edit Blog"></a>
+      <a href='/deleteBlog/<%= blog[i]._id %>'><img src="/icons/open-iconic-master/svg/trash.svg" alt="Delete Blog"></a>
+      <br/>
+    <% } %>
+    
   </body>
 </html>
