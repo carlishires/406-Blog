@@ -16,8 +16,8 @@
       <h2><%= blog[i].blogTitle %></h2>
       <p> <%= blog[i].blogText %></p>
       <p> <%= blog[i].createdOnDate %></p>
-      <a href='/editBlog'><img src="/icons/open-iconic-master/svg/pencil.svg" alt="Edit Blog"></a>
-      <a href='/deleteBlog'><img src="/icons/open-iconic-master/svg/trash.svg" alt="Delete Blog"></a>
+      <a href='/editBlog/<%= blog[i]._id %>'><img src="/icons/open-iconic-master/svg/pencil.svg" alt="Edit Blog"></a>
+      <a href='/deleteBlog/<%= blog[i]._id %>'><img src="/icons/open-iconic-master/svg/trash.svg" alt="Delete Blog"></a>
       <br/>
     <% } %>
     

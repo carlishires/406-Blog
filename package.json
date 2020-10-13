@@ -13,6 +13,7 @@
     "http-errors": "~1.6.3",
     "mongoose": "^5.10.7",
     "morgan": "~1.9.1",
-    "readline": "0.0.x"
+    "readline": "0.0.x",
+    "request": "^2.88.2"
   }
 }

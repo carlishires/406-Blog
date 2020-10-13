@@ -68,3 +68,6 @@
 [0mGET /stylesheets/style.css [36m304 [0m0.491 ms - -[0m
 [0mGET / [32m200 [0m1.386 ms - 455[0m
 [0mGET /stylesheets/style.css [36m304 [0m0.479 ms - -[0m
+(node:27177) DeprecationWarning: current URL string parser is deprecated, and will be removed in a future version. To use the new parser, pass option { useNewUrlParser: true } to MongoClient.connect.
+(node:27177) DeprecationWarning: current Server Discovery and Monitoring engine is deprecated, and will be removed in a future version. To use the new Server Discover and Monitoring engine, pass option { useUnifiedTopology: true } to the MongoClient constructor.
+Mongoose connected to mongodb://blogs:blogs@localhost/blogs

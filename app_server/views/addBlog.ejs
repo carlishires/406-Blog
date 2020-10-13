@@ -11,6 +11,11 @@
     <br/>
     
     <h1><%= title %></h1>
-    <p>Under Construction</p>
+    <form action="/addBlog" method="POST">
+      Title: <input type="text" name="blogTitle">
+      <br>
+      Text: <input type="text" name="blogText">
+      <button>Submit</button>
+    </form>
   </body>
 </html>

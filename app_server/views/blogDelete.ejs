@@ -11,6 +11,9 @@
     <br/>
     
     <h1><%= title %></h1>
-    <p>Under Construction</p>
+    <form action="/deleteBlog/<%= blog._id %>" method="POST">
+      Are you sure you want to delete <%= blog.blogTitle %>?
+      <button>Submit</button>
+    </form>
   </body>
 </html>

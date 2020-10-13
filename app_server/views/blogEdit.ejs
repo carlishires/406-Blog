@@ -11,6 +11,11 @@
     <br/>
     
     <h1><%= title %></h1>
-    <p>Under Construction</p>
+    <form action="/editBlog/<%= blog._id %>" method="POST">
+      Title: <input value="<%= blog.blogTitle %>" type="text" name="blogTitle">
+      <br>
+      Text: <input value="<%= blog.blogText %>" type="text" name="blogText">
+      <button>Submit</button>
+    </form>
   </body>
 </html>
