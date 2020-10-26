@@ -1,5 +1,6 @@
 // app_client/blogApp.js
 // Created for lab 5
+// DO THE DELETE THING
 var app = angular.module('blogApp', ['ngRoute']);
 
 // Router Provider
@@ -47,7 +48,7 @@ function getAllBlogs($http) {
     return $http.get('/api/blog');
 }
 
-function addNewBlog($http, data) {
+function addBlog($http, data) {
   return $http.post("/api/blog/", data);
 }
 
@@ -80,10 +81,10 @@ app.controller('ListController', function ListController($http) {
       });
 });
 
+// get window to work
 app.controller('AddController', [ '$http', '$routeParams', function AddController($http, $routeParams) {
   var vm = this;
   vm.blog = {};       // blank post
-// vm.id = $routeParams.id;    // Get id from $routeParams which must be injected and passed into controller
   vm.pageHeader = {
       title: 'Blog Add'
   };
@@ -94,15 +95,13 @@ app.controller('AddController', [ '$http', '$routeParams', function AddControlle
     data.blogTitle = userForm.blogTitle.value;
     data.blogText = userForm.blogText.value;
            
-    updateBlogById($http, vm.id, data)
+    addBlog($http, data)
       .then (function(data) {
-        console.log("blog data updated");
-        vm.message = "Blog data updated!";
+        vm.message = "Blog data added!";
         //$state.go('listBlog'); 
       },
       function (e) {
-        console.log("lol");
-        vm.message = "Could not update blog given id of " + vm.id + userForm.blogTitle.text + " " + userForm.blogText.text;
+        vm.message = "Could not add blog post"; 
       });
 }
 
@@ -145,5 +144,5 @@ app.controller('EditController', [ '$http', '$routeParams', function EditControl
             console.log("lol");
             vm.message = "Could not update blog given id of " + vm.id + userForm.blogTitle.text + " " + userForm.blogText.text;
           });
-    }
+    };
 }]);

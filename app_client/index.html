@@ -29,7 +29,13 @@
         </script>
 
         <script type="text/ng-template" id="pages/addBlog.html">
-            <p>to be added</p>
+            <form name="userForm" ng-submit="vm.submit()" ng-controller="AddController" style="padding: 20px">
+                Title: <input type="text" name="blogTitle" style="margin-bottom: 5px">
+                <br/>
+                Text: <input type="text" name="blogText" style="margin-bottom: 10px">
+                <br/>
+                <input type="submit" value="Create Post">
+            </form>
         </script>
 
         <script type="text/ng-template" id="pages/editBlog.html">
