@@ -1,3 +1,6 @@
+// app.js
+// Updated for lab 5
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -5,7 +8,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 require('./app_api/models/db');
 
-var indexRouter = require('./app_server/routes/index');
+//var indexRouter = require('./app_server/routes/index');
 var routesApi = require('./app_api/routes/index');
 
 var app = express();
@@ -19,9 +22,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'app_client')));
 
-app.use('/', indexRouter);
+//app.use('/', indexRouter);
 app.use('/api', routesApi);
+
+// Added per Lab 5 - Angular
+app.use(function(req, res) {
+  res.sendFile(path.join(__dirname, 'app_client', 'index.html'));
+}); 
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

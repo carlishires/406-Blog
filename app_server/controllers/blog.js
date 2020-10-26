@@ -1,4 +1,6 @@
-// controller
+// app_server/controllers/blog.js
+// Obsolete as of lab 5
+
 var request = require('request');
 var apiOptions = {
     server : "http://localhost"

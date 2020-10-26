@@ -1,0 +1,49 @@
+<!-- app_client/index.html -->
+<!-- Created for lab 5 -->
+<!DOCTYPE html>
+<html ng-app="blogApp">
+    <head>
+        <script src="/lib/angular.min.js"></script>
+        <script src="/lib/angular-route.min.js"></script>  
+    </head>
+    <body>
+        <a href="/"My Blog>My Blog</a>
+        <a href="/listBlog"listBlog>List Blogs</a>
+        <a href="/addBlog"addBlog>Add Blog</a>
+        
+        <!-- Angular Templates -->  
+        <script type="text/ng-template" id="pages/home.html">
+            <p></p>
+            <h2>{{vm.pageHeader.title}}</h2>
+            <p>{{vm.message}}</p>
+        </script>
+
+        <script type="text/ng-template" id="pages/listBlog.html">
+            <div ng-repeat="blog in vm.blogs">
+                <h3>{{blog.blogTitle}}</h3>
+                <p>{{blog.blogText}}</p>
+                <a href='/editBlog/{{blog._id}}'><img src="/icons/open-iconic-master/svg/pencil.svg" alt="Edit Blog"></a>
+                <a href='/deleteBlog/{{blog._id}}'><img src="/icons/open-iconic-master/svg/trash.svg" alt="Delete Blog"></a>
+                <hr/>
+            </div>
+        </script>
+
+        <script type="text/ng-template" id="pages/addBlog.html">
+            <p>to be added</p>
+        </script>
+
+        <script type="text/ng-template" id="pages/editBlog.html">
+            <form name="userForm" ng-submit="vm.submit()" ng-controller="EditController" style="padding: 20px">
+                Title: <input type="text" name="blogTitle" value="{{vm.blog.blogTitle}}" style="margin-bottom: 5px">
+                <br/>
+                Text: <input type="text" name="blogText" value="{{vm.blog.blogText}}" style="margin-bottom: 10px">
+                <br/>
+                <input type="submit" value="Submit">
+            </form>
+        </script>
+
+        <!-- Angular View  -->  
+        <div ng-view></div>       
+        <script src="blogApp.js"></script>    
+    </body>
+</html>
