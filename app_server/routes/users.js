@@ -1,3 +1,6 @@
+// app_server/routes/users.js
+// Obsolete as of lab 5
+
 var express = require('express');
 var router = express.Router();
 
