@@ -48,6 +48,17 @@
             </form>
         </script>
 
+        <script type="text/ng-template" id="pages/deleteBlog.html">
+            <form name="userForm" ng-submit="vm.submit()" ng-controller="DeleteController" style="padding: 20px">
+                Title: <input readonly name="blogTitle" value="{{vm.blog.blogTitle}}" style="margin-bottom: 5px">
+                <br/>
+                Text: <input readonly name="blogText" value="{{vm.blog.blogText}}" style="margin-bottom: 10px">
+                <br/>
+                <input type="submit" value="Delete Blog Post">
+                <button ng-click="vm.cancel()" type="button">Cancel</button>
+            </form>
+        </script>
+
         <!-- Angular View  -->  
         <div ng-view></div>       
         <script src="blogApp.js"></script>    

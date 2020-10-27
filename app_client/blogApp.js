@@ -26,6 +26,11 @@ app.config(function($routeProvider, $locationProvider) {
             controller: 'EditController',
             controllerAs: 'vm'
         })
+        .when('/deleteBlog/:id', {
+          templateUrl: 'pages/deleteBlog.html',
+          controller: 'DeleteController',
+          controllerAs: 'vm'
+        })
     .otherwise({redirectTo: '/'});
     
   $locationProvider.html5Mode({
@@ -81,10 +86,9 @@ app.controller('ListController', function ListController($http) {
       });
 });
 
-// get window to work
-app.controller('AddController', [ '$http', '$routeParams', function AddController($http, $routeParams) {
+app.controller('AddController', [ '$http', '$routeParams', '$window', function AddController($http, $routeParams, $window) {
   var vm = this;
-  vm.blog = {};       // blank post
+  vm.blog = {};
   vm.pageHeader = {
       title: 'Blog Add'
   };
@@ -98,7 +102,7 @@ app.controller('AddController', [ '$http', '$routeParams', function AddControlle
     addBlog($http, data)
       .then (function(data) {
         vm.message = "Blog data added!";
-        //$state.go('listBlog'); 
+        $window.location.assign('/listBlog');
       },
       function (e) {
         vm.message = "Could not add blog post"; 
@@ -107,9 +111,8 @@ app.controller('AddController', [ '$http', '$routeParams', function AddControlle
 
 }]);
 
-// add window?
 // fix the thing where content dissapears when page refreshes
-app.controller('EditController', [ '$http', '$routeParams', function EditController($http, $routeParams) {
+app.controller('EditController', [ '$http', '$routeParams', '$window', function EditController($http, $routeParams, $window) {
     var vm = this;
     vm.blog = {};       // blank post
     vm.id = $routeParams.id;    // Get id from $routeParams which must be injected and passed into controller
@@ -120,7 +123,6 @@ app.controller('EditController', [ '$http', '$routeParams', function EditControl
     // Get blog post data to be displayed on edit page
     getBlogById($http, vm.id)
       .then (function(data) {
-        console.log(data);
         vm.blog = data.data;
         vm.message = "Blog data found!";
       },
@@ -135,14 +137,48 @@ app.controller('EditController', [ '$http', '$routeParams', function EditControl
         data.blogText = userForm.blogText.value;
                
         updateBlogById($http, vm.id, data)
-          .then (function(data) {
-            console.log("blog data updated");
+          .then (function(data) {;
             vm.message = "Blog data updated!";
-            //$state.go('listBlog'); 
+            $window.location.assign('/listBlog');
           },
           function (e) {
-            console.log("lol");
             vm.message = "Could not update blog given id of " + vm.id + userForm.blogTitle.text + " " + userForm.blogText.text;
           });
     };
+}]);
+
+// get window to work
+app.controller('DeleteController', [ '$http', '$routeParams','$window', function DeleteController($http, $routeParams, $window) {
+  var vm = this;
+  vm.blog = {};
+  vm.id = $routeParams.id; 
+  vm.pageHeader = {
+      title: 'Blog Delete'
+  };
+
+  getBlogById($http, vm.id)
+      .then (function(data) {
+        vm.blog = data.data;
+        vm.message = "Blog data found!";
+      },
+      function (err) {
+        vm.message = "Could not get blog post given id of " + vm.id;
+      });    
+  
+  vm.submit = function() {
+    var data = {};
+    deleteBlogById($http, vm.id)
+      .then (function(data) {;
+        vm.message = "Blog data deleted!";
+        $window.location.assign('/listBlog');
+      },
+      function (e) {
+        vm.message = "Could not delete blog given id of " + vm.id;
+      }); 
+  }  
+  
+  vm.cancel = function() {
+    $window.location.assign('/listBlog');
+  } 
+  
 }]);
