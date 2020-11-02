@@ -8,6 +8,7 @@
   "dependencies": {
     "angular": "^1.8.0",
     "angular-route": "^1.8.0",
+    "bootstrap": "^3.4.1",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "ejs": "~2.6.1",

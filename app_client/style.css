@@ -1,0 +1,28 @@
+/* app_client/style.css */
+
+body {
+    font: 14px, Arial, Helvetica, sans-serif;
+
+}
+
+.container {
+    padding: 10px;
+    min-width: 100%;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+
+nav {
+    background: -webkit-linear-gradient(90deg, hsla(175, 72%, 54%, 1) 0%, hsla(206, 98%, 48%, 1) 100%);  
+}
+
+.navbtn {
+    color: white;
+}
+
+.homeText {
+    padding-left: 10px;
+}
+
+
