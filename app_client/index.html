@@ -1,23 +1,21 @@
-<!-- app_client/index.html -->
-<!-- Created for lab 5 -->
+
 <!DOCTYPE html>
 <html ng-app="blogApp">
+<!-- app_client/index.html -->
+<!-- Created for lab 5 -->
 
 <head>
+    <title>login</title>
     <script src="/lib/angular.min.js"></script>
     <script src="/lib/angular-route.min.js"></script>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="/lib/bootstrap.min.css">
 </head>
 
-<body>
-    <nav class="navbar fixed-top navbar-expand-lg">
-        <a class = "nav-item nav-link active btn navbtn" href="/" My Blog>My Blog</a>
-        <a class = "nav-item nav-link active btn navbtn" href="/listBlog" listBlog>List Blogs</a>
-        <a class = "nav-item nav-link active btn navbtn" href="/addBlog" addBlog>Add Blog</a>
-    </nav>    
+<body>   
     <!-- Angular Templates -->
     <script type="text/ng-template" id="pages/home.html">
+        <navigation></navigation>
             <div class="homeText">
                 <p></p>
                 <h2>{{vm.pageHeader.title}}</h2>
@@ -26,6 +24,7 @@
         </script>
 
     <script type="text/ng-template" id="pages/listBlog.html">
+        <navigation></navigation>
             <div class="container">
                 <div ng-repeat="blog in vm.blogs">
                     <h3>{{blog.blogTitle}}</h3>
@@ -38,6 +37,7 @@
         </script>
 
     <script type="text/ng-template" id="pages/addBlog.html">
+        <navigation></navigation>
             <div class="container">
                 <form name="userForm" ng-submit="vm.submit()" ng-controller="AddController">
                     Title: <input type="text" name="blogTitle" style="margin-bottom: 5px">
@@ -50,6 +50,7 @@
         </script>
 
     <script type="text/ng-template" id="pages/editBlog.html">
+        <navigation></navigation>
             <div class="container">
                 <form name="userForm" ng-submit="vm.submit()" ng-controller="EditController">
                     Title: <input type="text" name="blogTitle" value="{{vm.blog.blogTitle}}" style="margin-bottom: 5px">
@@ -62,6 +63,7 @@
         </script>
 
     <script type="text/ng-template" id="pages/deleteBlog.html">
+        <navigation></navigation>
             <div class="container">
                 <form name="userForm" ng-submit="vm.submit()" ng-controller="DeleteController">
                     Title: <input readonly name="blogTitle" value="{{vm.blog.blogTitle}}" style="margin-bottom: 5px">
@@ -77,6 +79,10 @@
     <!-- Angular View  -->
     <div ng-view></div>
     <script src="blogApp.js"></script>
+    <script src="common/nav/navigation.js"></script>
+    <script src="common/authentication.js"></script>
+    <script src="common/auth/login/login.controller.js"></script>
+    <script src="common/auth/register/register.controller.js"></script>
 </body>
 
 </html>

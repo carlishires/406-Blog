@@ -1,6 +1,5 @@
 // app_client/blogApp.js
 // Created for lab 5
-// DO THE DELETE THING
 var app = angular.module('blogApp', ['ngRoute']);
 
 // Router Provider
@@ -31,6 +30,16 @@ app.config(function ($routeProvider, $locationProvider) {
       controller: 'DeleteController',
       controllerAs: 'vm'
     })
+    .when('/register', {
+      templateUrl: 'common/auth/register/register.view.html',
+      controller: 'RegisterController',
+      controllerAs: 'vm'
+    })
+    .when('/login', {
+      templateUrl: 'common/auth/login/login.view.html',
+      controller: 'LoginController',
+      controllerAs: 'vm'
+    })
     .otherwise({ redirectTo: '/' });
 
   $locationProvider.html5Mode({
@@ -53,22 +62,29 @@ function getAllBlogs($http) {
   return $http.get('/api/blog');
 }
 
-function addBlog($http, data) {
-  return $http.post("/api/blog/", data);
+function addBlog($http, data, authentication) {
+  return $http.post("/api/blog/", data, { headers: { Authorization: 'Bearer '+ authentication.getToken() }});
 }
 
 function getBlogById($http, id) {
   return $http.get('/api/blog/' + id);
 }
 
-function updateBlogById($http, id, data) {
-  return $http.put('/api/blog/' + id, data);
+function updateBlogById($http, id, data, authentication) {
+  return $http.put('/api/blog/' + id, data, { headers: { Authorization: 'Bearer '+ authentication.getToken() }});
 }
 
-function deleteBlogById($http, id) {
-  return $http.delete('/api/blog/' + id);
+function deleteBlogById($http, id, authentication) {
+  return $http.delete('/api/blog/' + id, { headers: { Authorization: 'Bearer '+ authentication.getToken() }});
 }
 
+function registerUser($http, data) {
+  return $http.post('/api/register/', data);
+}
+
+function loginUser($http, data) {
+  return $http.post('/api/login/' , data);
+}
 // Controllers
 app.controller('ListController', function ListController($http) {
   var vm = this;
@@ -86,9 +102,11 @@ app.controller('ListController', function ListController($http) {
       });
 });
 
-app.controller('AddController', ['$http', '$routeParams', '$window', function AddController($http, $routeParams, $window) {
+app.controller('AddController', ['$http', '$routeParams', '$location', 'authentication', '$window', function AddController($http, $routeParams, $location, authentication, $window) {
   var vm = this;
   vm.blog = {};
+  vm.isLoggedIn = authentication.isLoggedIn();
+  vm.currentPath = $location.path(); 
   vm.pageHeader = {
     title: 'Blog Add'
   };
@@ -99,7 +117,7 @@ app.controller('AddController', ['$http', '$routeParams', '$window', function Ad
     data.blogTitle = userForm.blogTitle.value;
     data.blogText = userForm.blogText.value;
 
-    addBlog($http, data)
+    addBlog($http, data, authentication)
       .then(function (data) {
         vm.message = "Blog data added!";
         $window.location.assign('/listBlog');
@@ -112,10 +130,12 @@ app.controller('AddController', ['$http', '$routeParams', '$window', function Ad
 }]);
 
 // fix the thing where content dissapears when page refreshes
-app.controller('EditController', ['$http', '$routeParams', '$window', function EditController($http, $routeParams, $window) {
+app.controller('EditController', ['$http', '$routeParams', '$location', 'authentication', '$window', function EditController($http, $routeParams, $location, authentication, $window) {
   var vm = this;
   vm.blog = {};       // blank post
   vm.id = $routeParams.id;    // Get id from $routeParams which must be injected and passed into controller
+  vm.isLoggedIn = authentication.isLoggedIn();
+  vm.currentPath = $location.path()
   vm.pageHeader = {
     title: 'Blog Edit'
   };
@@ -136,7 +156,7 @@ app.controller('EditController', ['$http', '$routeParams', '$window', function E
     data.blogTitle = userForm.blogTitle.value;
     data.blogText = userForm.blogText.value;
 
-    updateBlogById($http, vm.id, data)
+    updateBlogById($http, vm.id, data, authentication)
       .then(function (data) {
         ;
         vm.message = "Blog data updated!";
@@ -149,10 +169,13 @@ app.controller('EditController', ['$http', '$routeParams', '$window', function E
 }]);
 
 // get window to work
-app.controller('DeleteController', ['$http', '$routeParams', '$window', function DeleteController($http, $routeParams, $window) {
+app.controller('DeleteController', ['$http', '$routeParams', '$location', 'authentication', '$window', function DeleteController($http, $routeParams, $location, authentication, $window) {
   var vm = this;
   vm.blog = {};
   vm.id = $routeParams.id;
+  vm.isLoggedIn = authentication.isLoggedIn();
+  vm.currentPath = $location.path();
+
   vm.pageHeader = {
     title: 'Blog Delete'
   };
@@ -168,7 +191,7 @@ app.controller('DeleteController', ['$http', '$routeParams', '$window', function
 
   vm.submit = function () {
     var data = {};
-    deleteBlogById($http, vm.id)
+    deleteBlogById($http, vm.id, authentication)
       .then(function (data) {
         ;
         vm.message = "Blog data deleted!";

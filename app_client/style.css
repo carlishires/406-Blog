@@ -21,8 +21,18 @@ nav {
     color: white;
 }
 
+.navbar-brand {
+    color: white;
+}
+
+.navbar-nav {
+    margin-top: 5px !important;
+}
+
 .homeText {
     padding-left: 10px;
 }
+
+
 
 

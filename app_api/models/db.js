@@ -1,4 +1,5 @@
 // models
+// Updated for lab 6
 var mongoose = require( 'mongoose' );
 
 var dbURI = 'mongodb://blogs:blogs@localhost/blogs'; 
@@ -51,3 +52,4 @@ process.on('SIGTERM', function() {
 });
 
 require('./blogs');
+require('./users');
