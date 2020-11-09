@@ -86,11 +86,13 @@ function loginUser($http, data) {
   return $http.post('/api/login/' , data);
 }
 // Controllers
-app.controller('ListController', function ListController($http) {
+app.controller('ListController', ['$http', 'authentication', function ListController($http, authentication) {
   var vm = this;
   vm.pageHeader = {
     title: 'Blog List'
   };
+
+  vm.isLoggedIn = authentication.isLoggedIn();
 
   getAllBlogs($http)
     .then(function (data) {
@@ -100,7 +102,7 @@ app.controller('ListController', function ListController($http) {
       function (err) {
         vm.message = "Could not get list of blog posts";
       });
-});
+}]);
 
 app.controller('AddController', ['$http', '$routeParams', '$location', 'authentication', '$window', function AddController($http, $routeParams, $location, authentication, $window) {
   var vm = this;

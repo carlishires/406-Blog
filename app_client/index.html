@@ -29,8 +29,8 @@
                 <div ng-repeat="blog in vm.blogs">
                     <h3>{{blog.blogTitle}}</h3>
                     <p>{{blog.blogText}}</p>
-                    <a href='/editBlog/{{blog._id}}'><img src="/icons/open-iconic-master/svg/pencil.svg" alt="Edit Blog"></a>
-                    <a href='/deleteBlog/{{blog._id}}'><img src="/icons/open-iconic-master/svg/trash.svg" alt="Delete Blog"></a>
+                    <a ng-show="vm.isLoggedIn" href='/editBlog/{{blog._id}}'><img src="/icons/open-iconic-master/svg/pencil.svg" alt="Edit Blog"></a>
+                    <a ng-show="vm.isLoggedIn" href='/deleteBlog/{{blog._id}}'><img src="/icons/open-iconic-master/svg/trash.svg" alt="Delete Blog"></a>
                     <hr/>
                 </div>
             </div>
