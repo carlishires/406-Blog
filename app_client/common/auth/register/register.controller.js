@@ -34,15 +34,12 @@
         vm.formError = "";
         authentication
           .register(vm.credentials)
-          .error(function(err){
-            vm.formError = err;
-          })
           .then(function(data){
             authentication.saveToken(data.data.token);
             $location.search('page', null); 
             $location.path(vm.returnPage);
           }, function(err){
-            vm.formError = err;
+            vm.formError = "An account has already been created with this email";
           }
           );
       };

@@ -11,7 +11,7 @@ var blogController = require('../controllers/blog');
 var userController = require('../controllers/authentication');
 
 /* GET home page. */
-router.get('/blog', blogController.listAllBlogs);
+router.get('/blog', /*auth,*/ blogController.listAllBlogs);
 router.post('/blog', auth, blogController.addBlog);
 router.get('/blog/:blogid', blogController.listSingleBlog);
 router.put('/blog/:blogid', auth, blogController.editBlog);

@@ -39,7 +39,7 @@
             $location.path(vm.returnPage);
           },
           function(err){
-            vm.formError = err.data.message;
+            vm.formError = "Account does not exist. Please try a different email or password."
           });
       }
   
