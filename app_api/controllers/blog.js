@@ -39,6 +39,7 @@ var buildBlogList = function(req, res, results) {
 
 // POST
 module.exports.addBlog = function (req, res) { 
+    console.log("in add");
     Blog.create({
         blogTitle: req.body.blogTitle,
         blogText: req.body.blogText
@@ -112,3 +113,5 @@ module.exports.deleteBlog = function (req, res) {
         });
     }
 };
+
+
