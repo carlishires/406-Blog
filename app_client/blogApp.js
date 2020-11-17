@@ -93,6 +93,7 @@ app.controller('ListController', ['$http', 'authentication', function ListContro
   };
 
   vm.isLoggedIn = authentication.isLoggedIn();
+  vm.currentUser = authentication.currentUser();
 
   getAllBlogs($http)
     .then(function (data) {
@@ -102,12 +103,20 @@ app.controller('ListController', ['$http', 'authentication', function ListContro
       function (err) {
         vm.message = "Could not get list of blog posts";
       });
-}]);
+}]).filter('dateFormat', dateFormat);
+
+function dateFormat(){
+  return function(date) {
+      var dateObj = new Date(date);
+      return dateObj.toLocaleString('en-US', { timeZone: 'America/New_York', dateStyle: 'full', timeStyle: 'short' });
+  };
+}
 
 app.controller('AddController', ['$http', '$routeParams', '$location', 'authentication', '$window', function AddController($http, $routeParams, $location, authentication, $window) {
   var vm = this;
   vm.blog = {};
   vm.isLoggedIn = authentication.isLoggedIn();
+  vm.currentUser = authentication.currentUser();
   vm.currentPath = $location.path(); 
   vm.pageHeader = {
     title: 'Blog Add'
@@ -118,6 +127,9 @@ app.controller('AddController', ['$http', '$routeParams', '$location', 'authenti
     var data = vm.blog;
     data.blogTitle = userForm.blogTitle.value;
     data.blogText = userForm.blogText.value;
+    data.authorName = vm.currentUser.name;
+    data.authorEmail = vm.currentUser.email;
+    data.createdOnDate;
 
     addBlog($http, data, authentication)
       .then(function (data) {
@@ -137,6 +149,7 @@ app.controller('EditController', ['$http', '$routeParams', '$location', 'authent
   vm.blog = {};       // blank post
   vm.id = $routeParams.id;    // Get id from $routeParams which must be injected and passed into controller
   vm.isLoggedIn = authentication.isLoggedIn();
+  vm.currentUser = authentication.currentUser();
   vm.currentPath = $location.path()
   vm.pageHeader = {
     title: 'Blog Edit'
@@ -176,6 +189,7 @@ app.controller('DeleteController', ['$http', '$routeParams', '$location', 'authe
   vm.blog = {};
   vm.id = $routeParams.id;
   vm.isLoggedIn = authentication.isLoggedIn();
+  vm.currentUser = authentication.currentUser();
   vm.currentPath = $location.path();
 
   vm.pageHeader = {
