@@ -49,6 +49,10 @@ app.service('authentication', authentication);
           }
         };
 
+        var isUser = function(email) {
+          return $http.get('/api/user/' + email);
+        };
+
         return {
           saveToken : saveToken,
           getToken : getToken,
@@ -56,6 +60,7 @@ app.service('authentication', authentication);
           login : login,
           logout : logout,
           isLoggedIn : isLoggedIn,
-          currentUser : currentUser
+          currentUser : currentUser,
+          isUser: isUser
         };
 }

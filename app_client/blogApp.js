@@ -40,6 +40,11 @@ app.config(function ($routeProvider, $locationProvider) {
       controller: 'LoginController',
       controllerAs: 'vm'
     })
+    .when('/tictactoe', {
+      templateUrl: 'tictactoe/tictactoe.view.html',
+      controller: 'GameController',
+      controllerAs: 'vm'
+    })
     .otherwise({ redirectTo: '/' });
 
   $locationProvider.html5Mode({

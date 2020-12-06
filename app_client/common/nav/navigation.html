@@ -5,6 +5,7 @@
         <div class="navbar-nav mt-5">
             <a class="nav-item nav-link active btn navbtn" href="/listBlog">List Blogs</a>
             <a ng-show="navvm.isLoggedIn" class="nav-item nav-link active btn navbtn" href="/addBlog">Add Blog</a>
+            <a ng-show="navvm.isLoggedIn" class="nav-item nav-link active btn navbtn" href="/tictactoe">Tic-Tac-Toe</a>
             <a ng-show="!navvm.isLoggedIn" class="nav-item nav-link active btn navbtn" href="/login/?page={{ navvm.currentPath }}">Sign In</a>
             <a ng-show="navvm.isLoggedIn" class="nav-item nav-link active btn navbtn" href="" ng-click="navvm.logout()">Logout <small>({{ navvm.currentUser.email }})</small></a>
         </div>
