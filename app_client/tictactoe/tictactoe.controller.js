@@ -6,6 +6,7 @@
     app.service('gameService', game);
     app.controller('GameController', gameController);
         
+    // http functions
     function game($http, authentication) {
         // GET
         var getByPlayer = function(player) {
@@ -36,27 +37,35 @@
         };
     }
 
-    function gameController(authentication, $window, $interval, $scope, gameService) {
+    function gameController(authentication, $interval, $scope, gameService) {
         var vm = this;
+        vm.winner = '';
+        vm.gameOver = false;
         vm.pageHeader = {
             title: 'Tic Tac Toe'
         };
 
+        // gets a game by a player
         gameService.getByPlayer(authentication.currentUser().email)
             .then(
                 function successCb(response) {
                     vm.board = response.data;
+                    vm.gameOver = vm.checkGame();
                 },
                 function errorCb(err) {
                     vm.board = null;
+                    vm.gameOver = false;
+                    vm.winner = '';
                 }
             );
 
+        // calls something at an interval        
         $scope.callAtInterval = function() {
             gameService.getByPlayer(authentication.currentUser().email)
             .then(
                 function successCb(response) {
                     vm.board = response.data;
+                    vm.gameOver = vm.checkGame();
                 },
                 function errorCb(err) {
                     vm.board = null;
@@ -66,10 +75,14 @@
         $interval(function() { $scope.callAtInterval(); }, 3000, 0, true);
 
         vm.takeTurn = function(pos) {
+            console.log(authentication.currentUser().email);
             if (authentication.currentUser().email != vm.board.currentPlayer) {
                 return;
             }
             if (vm.board.board[pos] != '') {
+                return;
+            }
+            if (vm.gameOver) {
                 return;
             }
             gameService.takeTurnById(vm.board._id, pos + 1)
@@ -77,6 +90,7 @@
                     function successCb(response) {
                         console.log(response);
                         vm.board = response.data;
+                        vm.gameOver = vm.checkGame();
                     },
                     function errorCb(err) {
                         console.log = "Error occoured while taking turn";
@@ -84,45 +98,67 @@
                 );
         }
         
+        // check if game is over
         vm.checkGame = function() {
-            var winner = '';
             vm.winner = '';
             
-            if (vm.board.board[0] == vm.board.board[1] && vm.board.board[1] == vm.board.board[2]) {
+            if (vm.board.board[0] == vm.board.board[1] && vm.board.board[0] == vm.board.board[2]) {
                 if (vm.board.board[0] != '') {
-                    winner = vm.board.board[0];
+                    vm.winner = vm.board.board[0];
+                    return true;
                 }
-            } else if (vm.board.board[3] == vm.board.board[4] && vm.board.board[4] == vm.board.board[5]) {
+            } else if (vm.board.board[3] == vm.board.board[4] && vm.board.board[3] == vm.board.board[5]) {
                 if (vm.board.board[3] != '') {
-                    winner = vm.board.board[3];
+                    vm.winner = vm.board.board[3];
+                    return true;
                 }
-            } else if (vm.board.board[6] == vm.board.board[7] && vm.board.board[7] == vm.board.board[8]) {
+            } else if (vm.board.board[6] == vm.board.board[7] && vm.board.board[6] == vm.board.board[8]) {
                 if (vm.board.board[6] != '') {
-                    winner = vm.board.board[6];
+                    vm.winner = vm.board.board[6];
+                    return true;
                 }
-            } else if (vm.board.board[0] == vm.board.board[3] && vm.board.board[3] == vm.board.board[6]) {
+            } else if (vm.board.board[0] == vm.board.board[3] && vm.board.board[0] == vm.board.board[6]) {
                 if (vm.board.board[0] != '') {
-                    winner = vm.board.board[0];
+                    vm.winner = vm.board.board[0];
+                    return true;
                 }
-            } else if (vm.board.board[1] == vm.board.board[4] && vm.board.board[4] == vm.board.board[7]) {
+            } else if (vm.board.board[1] == vm.board.board[4] && vm.board.board[1] == vm.board.board[7]) {
                 if (vm.board.board[1] != '') {
-                    winner = vm.board.board[1];
+                    vm.winner = vm.board.board[1];
+                    return true;
                 }
-            } else if (vm.board.board[2] == vm.board.board[5] && vm.board.board[5] == vm.board.board[7]) {
+            } else if (vm.board.board[2] == vm.board.board[5] && vm.board.board[2] == vm.board.board[8]) {
                 if (vm.board.board[2] != '') {
-                    winner = vm.board.board[2];
+                    vm.winner = vm.board.board[2];
+                    return true;
                 }
-            } else if (vm.board.board[0] == vm.board.board[4] && vm.board.board[4] == vm.board.board[7]) {
+            } else if (vm.board.board[0] == vm.board.board[4] && vm.board.board[0] == vm.board.board[8]) {
                 if (vm.board.board[0] != '') {
-                    winner = vm.board.board[0];
+                    vm.winner = vm.board.board[0];
+                    return true;
                 }
-            } else if (vm.board.board[2] == vm.board.board[4] && vm.board.board[4] == vm.board.board[6]) {
-                if (vm.board.board[0] != '') {
-                    winner = vm.board.board[0];
+            } else if (vm.board.board[2] == vm.board.board[4] && vm.board.board[2] == vm.board.board[6]) {
+                if (vm.board.board[2] != '') {
+                    vm.winner = vm.board.board[2];
+                    return true;
                 }
-            }   
+            }
+            // checks for a draw
+            var filled = 0;
+            for (i = 0; i < 9; i++) {
+                if (vm.board.board[i] != '') {
+                    filled++;
+                }
+            }
+            
+            if (filled == 9) {
+                return true;
+            }
+            
+            return false;   
         };
 
+        // quit game befor it ends
         vm.quitGame = function() {
             gameService.deleteByPlayer(authentication.currentUser().email)
                 .then(
@@ -130,6 +166,7 @@
                         vm.board = null;
                         vm.winner = '';
                         vm.email = '';
+                        vm.gameOver = false;
                     },
                     function errorCb(err) {
                         console.log("Error quitting game");

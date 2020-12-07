@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 var tictactoeSchema = new mongoose.Schema({
     board: {
         type: [String],
-        "default": ['', '', '', '', '', '', '', ''],
+        "default": ['', '', '', '', '', '', '', '', ''],
         required: true
     },
     p1: {type: String, required: true},

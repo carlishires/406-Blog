@@ -19,6 +19,9 @@
 
         </div>
         <div ng-show="vm.board != null">
+            <h3 ng-show="vm.board.p1 == vm.board.currentPlayer">X is up</h3>
+            <h3 ng-show="vm.board.p2 == vm.board.currentPlayer">O is up</h3>
+            
             <div class="play-area">
                 <div id="block_0" class="block" ng-click="vm.takeTurn(0)">{{vm.board.board[0]}}</div>
                 <div id="block_1" class="block" ng-click="vm.takeTurn(1)">{{vm.board.board[1]}}</div>
@@ -30,8 +33,9 @@
                 <div id="block_7" class="block" ng-click="vm.takeTurn(7)">{{vm.board.board[7]}}</div>
                 <div id="block_8" class="block" ng-click="vm.takeTurn(8)">{{vm.board.board[8]}}</div>
             </div>
-            <h2 id="winner"></h2>
-            <button ng-click="vm.quitGame()">Quit Game</button>
+            <h4 ng-show="vm.gameOver && (vm.winner != '')">{{vm.winner}} is the winner</h3>
+            <h4 ng-show="vm.gameOver && (vm.winner == '')">Draw</h3>
+            <button class="reset" ng-click="vm.quitGame()">Quit Game</button>
         </div>
     </div>
 
