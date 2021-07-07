@@ -1,0 +1,43 @@
+
+<navigation></navigation>
+<div class="container">
+    <head>
+        <title>Tic-Tac-Toe</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    
+    <page-header content="vm.pageHeader"></page-header>
+
+    <div class="container">
+        <h1>Tic-Tac-Toe</h1>
+        <div ng-show="vm.board == null">
+            <form ng-submit="vm.startGame()">
+                <label for="email">Enter Opponent's Email Address:</label>
+                <input type="text" id="email" ng-model="vm.email">
+                <button class="btn btn-primary">Start</button>
+            </form>
+
+        </div>
+        <div ng-show="vm.board != null">
+            <h3 ng-show="vm.board.p1 == vm.board.currentPlayer">X is up</h3>
+            <h3 ng-show="vm.board.p2 == vm.board.currentPlayer">O is up</h3>
+            
+            <div class="play-area">
+                <div id="block_0" class="block" ng-click="vm.takeTurn(0)">{{vm.board.board[0]}}</div>
+                <div id="block_1" class="block" ng-click="vm.takeTurn(1)">{{vm.board.board[1]}}</div>
+                <div id="block_2" class="block" ng-click="vm.takeTurn(2)">{{vm.board.board[2]}}</div>
+                <div id="block_3" class="block" ng-click="vm.takeTurn(3)">{{vm.board.board[3]}}</div>
+                <div id="block_4" class="block" ng-click="vm.takeTurn(4)">{{vm.board.board[4]}}</div>
+                <div id="block_5" class="block" ng-click="vm.takeTurn(5)">{{vm.board.board[5]}}</div>
+                <div id="block_6" class="block" ng-click="vm.takeTurn(6)">{{vm.board.board[6]}}</div>
+                <div id="block_7" class="block" ng-click="vm.takeTurn(7)">{{vm.board.board[7]}}</div>
+                <div id="block_8" class="block" ng-click="vm.takeTurn(8)">{{vm.board.board[8]}}</div>
+            </div>
+            <h4 ng-show="vm.gameOver && (vm.winner != '')">{{vm.winner}} is the winner</h3>
+            <h4 ng-show="vm.gameOver && (vm.winner == '')">Draw</h3>
+            <button class="reset" ng-click="vm.quitGame()">Quit Game</button>
+        </div>
+    </div>
+
+    <footer-generic></footer-generic>
+</div>

@@ -62,3 +62,25 @@ module.exports.login = function(req, res) {
   })(req, res);
 
 };
+
+module.exports.isUser = function(req, res) {
+  if (!req.params || !req.params.email) {
+    sendJSONresponse(res, 400, {
+      "message": "Invalid email address"
+    });
+    return;
+  }
+
+  User
+    .findOne({email: req.params.email})
+    .exec(function(err, user) {
+      if (!user) {
+        sendJSONresponse(res, 200, {"isUser": false});
+        return;
+      } else if (err) {
+        sendJSONresponse(res, 404, err); 
+        return;
+      }
+      sendJSONresponse(res, 200, {"isUser": true});
+    });
+};
